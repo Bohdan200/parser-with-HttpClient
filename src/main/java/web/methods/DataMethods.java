@@ -11,10 +11,10 @@ import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
-public class DataMethods {
+public class DataMethods implements IWorkingWithData {
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    public static String get(String url) throws IOException, URISyntaxException, InterruptedException {
+    public String get(String url) throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI(url))
                 .GET()
                 .build();

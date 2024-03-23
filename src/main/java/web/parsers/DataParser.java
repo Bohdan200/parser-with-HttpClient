@@ -12,14 +12,16 @@ import java.util.List;
 import web.data.Comment;
 import web.data.Post;
 import web.data.Task;
+import web.methods.UserMethods;
 import web.paths.Paths;
 import web.methods.DataMethods;
 
 public class DataParser {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final DataMethods methods = new DataMethods();
 
     public static void getCommentsToLastPost(int userId) throws IOException, URISyntaxException, InterruptedException {
-        String posts = DataMethods.get(Paths.getUserPosts(userId));
+        String posts = methods.get(Paths.getUserPosts(userId));
         List<Post> allPosts = gson.fromJson(posts, DataMethods.getType(Post.class));
 
         int lastPostIdx = allPosts.get(1).getId();
@@ -28,7 +30,7 @@ public class DataParser {
                 lastPostIdx = post.getId();
         }
 
-        String comments = DataMethods.get(Paths.getComments(lastPostIdx));
+        String comments = methods.get(Paths.getComments(lastPostIdx));
         List<Comment> allComments = gson.fromJson(comments, DataMethods.getType(Comment.class));
 
         FileWriter fileWriter = new FileWriter("user-" + userId + "-posts-" + lastPostIdx + "-comments.json");
@@ -48,7 +50,7 @@ public class DataParser {
         fileWriter.close();
     }
  public static void getUncompletedTasks(int userId) throws IOException, URISyntaxException, InterruptedException {
-        String tasks = DataMethods.get(Paths.getTasks(userId));
+        String tasks = methods.get(Paths.getTasks(userId));
         List<Task> allTasks = gson.fromJson(tasks, DataMethods.getType(Task.class));
 
         for (Task task : allTasks) {

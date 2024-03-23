@@ -13,10 +13,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import web.user.User;
 
-public class UserMethods {
+public class UserMethods implements IWorkingWithUser {
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    public static String get(String url) throws URISyntaxException, IOException, InterruptedException {
+    public String get(String url) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI(url))
                 .GET()
                 .build();
@@ -32,7 +32,7 @@ public class UserMethods {
                 .getType();
     }
 
-    public static String post(String url, String newUser) throws IOException, InterruptedException {
+    public String post(String url, String newUser) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
@@ -45,7 +45,7 @@ public class UserMethods {
         return response.body();
     }
 
-    public static String put(String url, String userData) throws IOException, URISyntaxException, InterruptedException {
+    public String put(String url, String userData) throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI(url))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(userData))
@@ -56,7 +56,7 @@ public class UserMethods {
         return response.body();
     }
 
-    public static String remove(String url) throws IOException, URISyntaxException, InterruptedException {
+    public String remove(String url) throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI(url))
                 .DELETE()
                 .build();
